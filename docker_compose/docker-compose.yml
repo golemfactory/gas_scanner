@@ -21,7 +21,7 @@ services:
       
       WATCHDOG_START_AGGREGATOR: node dist/gas_scanner_aggregator.js
       WATCHDOG_START_SERVER: node dist/gas_scanner_server.js
-      WATCHDOG_START_COMMAND: node dist/gas_scanner_main.js --fillMissingBlocks
+      WATCHDOG_START_COMMAND: node dist/gas_scanner_main.js --fillMissingBlocks --clearDatabase
       WATCHDOG_AFTER_KILL_DELAY_MS: 5000
       WATCHDOG_AFTER_START_DELAY_MS: 15000
       WATCHDOG_ALLOWED_SECONDS_BEHIND: 30
