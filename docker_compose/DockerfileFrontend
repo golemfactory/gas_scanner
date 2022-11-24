@@ -9,5 +9,5 @@ WORKDIR /gas_scanner_front
 RUN npm install
 RUN npm run build
 
-ENTRYPOINT serve -l 5555 build
-
+#ENTRYPOINT serve -l 5555 build
+ENTRYPOINT npm run start

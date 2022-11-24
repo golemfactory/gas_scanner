@@ -1,17 +1,17 @@
 version: "3.3"  # optional since v1.27.0
 services:
-  mongodb_container:
+  mongodb:
     image: mongo:latest
     container_name: gas_scanner_mongo
     volumes:
-      - mongodb_data_container:/data/db
+      - mongodb_data:/data/db
 
-  gas_scanner_container:
+  gas_scanner_backend:
     image: gas_scanner_backend_image
     container_name: gas_scanner_backend
     environment:
       PROVIDER_ADDRESS: https://bor.golem.network
-      MONGO_DB_CONNECTION_STRING: mongodb://mongodb_container:27017
+      MONGO_DB_CONNECTION_STRING: mongodb://mongodb:27017
       MONGO_DB_NAME: GasUsage
 
       AGGREGATOR_DELAY_START: 60
@@ -25,14 +25,23 @@ services:
       WATCHDOG_AFTER_KILL_DELAY_MS: 5000
       WATCHDOG_AFTER_START_DELAY_MS: 15000
       WATCHDOG_ALLOWED_SECONDS_BEHIND: 30
-      WATCHDOG_CHECK_EVERY_MS: 250000      
+      WATCHDOG_CHECK_EVERY_MS: 250000
       
       SERVER_LISTEN_PORT: 7888
       SERVER_CACHE_VALIDITY: 3000
     ports:
-      - "8899:7888"
+      - "7888:7888"
     tty: true
-
+  gas_scanner_frontend:
+    image: gas_scanner_frontend_image
+    container_name: gas_scanner_frontend
+    environment:
+      REACT_APP_BACKEND_URL: http://localhost:7888
+      REACT_APP_CHECK_GAS_PRICE_INTERVAL: 5000
+      REACT_APP_CHECK_BLOCK_LIST_INTERVAL: 3000
+      REACT_APP_CHECK_AVG_DATA_INTERVAL: 12000
+    ports:
+      - "3000:3000"
+    tty: true
 volumes:
-  mongodb_data_container:
- 
+  mongodb_data:
