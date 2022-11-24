@@ -35,13 +35,8 @@ services:
   gas_scanner_frontend:
     image: gas_scanner_frontend_image
     container_name: gas_scanner_frontend
-    environment:
-      REACT_APP_BACKEND_URL: http://localhost:7888
-      REACT_APP_CHECK_GAS_PRICE_INTERVAL: 5000
-      REACT_APP_CHECK_BLOCK_LIST_INTERVAL: 3000
-      REACT_APP_CHECK_AVG_DATA_INTERVAL: 12000
     ports:
-      - "3000:3000"
+      - "80:80"
     tty: true
 volumes:
   mongodb_data:

@@ -1,4 +1,4 @@
-FROM node
+FROM node as front
 
 RUN npm install -g typescript
 RUN npm install -g ts-node
@@ -9,5 +9,16 @@ WORKDIR /gas_scanner_front
 RUN npm install
 RUN npm run build
 
-#ENTRYPOINT serve -l 5555 build
-ENTRYPOINT npm run start
+
+FROM nginx:latest
+COPY --from=front /gas_scanner_front/build/ /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY run.sh /bin/run.sh
+RUN chmod a+x /bin/run.sh
+RUN chmod a+x /
+
+EXPOSE 80
+
+ENTRYPOINT /bin/run.sh gas_scanner_backend
