@@ -117,10 +117,6 @@ export class App extends React.Component<AppProps> {
               <Flex align="center">
                   <Heading>PolygonGas</Heading>
               </Flex>
-              <Flex align="center">
-
-                <a href="http://localhost:7888/polygon/gas-info/waiting_times?block_start=23500795&block_count=1000000">API</a>
-              </Flex>
               <Flex align="center" padding="0 20px" gridGap="3">
                   <Button onClick={this.goToMain.bind(this)}>Main</Button>
                   <Button onClick={this.goToAbout.bind(this)}>About</Button>
@@ -136,21 +132,13 @@ export class App extends React.Component<AppProps> {
               <Flex direction="column" shrink="0">
                 <Flex direction="row" flex={1} shrink="0" alignItems="stretch" justifyContent="space-between"
                       gridGap="5">
+                  <Flex direction="column">
+                    <SuggestedGasComponent></SuggestedGasComponent>
+                    <AddressListComponent></AddressListComponent>
+                    <BlockListComponent></BlockListComponent>
+                  </Flex>
                   <GasChart></GasChart>
-                  <GasChart></GasChart>
-                </Flex>
-                <Flex direction="row" flex={1} shrink="0" alignItems="stretch" justifyContent="space-between" gridGap="5">
-                  <SuggestedGasComponent></SuggestedGasComponent>
-
-                </Flex>
-                <Flex direction="row" flex={1} shrink="0" alignItems="stretch" justifyContent="space-between" gridGap="5">
-                  <AddressListComponent></AddressListComponent>
-
-                </Flex>
-
-                <Flex direction="row" flex={1} shrink="0" alignItems="stretch" justifyContent="space-between" gridGap="5">
-                  <BlockListComponent></BlockListComponent>
-
+                  <Flex>&nbsp;</Flex>
                 </Flex>
               </Flex>
             }

@@ -54,13 +54,8 @@ export const options = {
 };
 
 const defaultData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: [],
     datasets: [
-        {
-            label: 'Dataset 1',
-            data: [0,1,2,3,4,5],
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        },
     ],
 };
 
@@ -271,7 +266,7 @@ export class GasChart extends React.Component {
 
     render() {
         return (
-            <Flex flex={1} flexDirection="column" gridGap="3" backgroundColor={"white"} padding={"15px"}>
+            <Flex flex={1} flexDirection="column" gridGap="3" backgroundColor={"white"} padding={"15px"} marginRight={"5em"}>
                 <Flex flexDirection="row"  gridGap="3">
                     <Flex flexDirection="column">
                         <Heading textColor={this.getPassiveColor()} as='h3' size='md'> {this.getTitle()}</Heading>
