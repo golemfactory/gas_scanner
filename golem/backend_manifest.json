@@ -1,0 +1,38 @@
+{
+    "version": "0.1.0",
+    "createdAt": "2022-09-29T00:00:00.000000Z",
+    "expiresAt": "2100-01-01T00:00:00.000000Z",
+    "payload": [
+        {
+          "platform": {
+            "arch": "x86_64",
+            "os": "linux"
+          },
+          "urls": [
+            "http://yacn2.dev.golem.network:8000/docker-gas_scanner_backend_image-latest-3f6ff67773.gvmi"
+          ],
+          "hash": "sha3:7e671bbcbf15686278cf72f76847acf4414980a993e48273860f206b"
+        }
+      ],
+      "compManifest": {
+      "version": "0.1.0",
+      "script": {
+        "commands": [
+          "run .*"
+        ],
+        "match": "regex"
+      },
+      "net": {
+        "inet": {
+          "out": {
+            "protocols": [
+              "https"
+            ],
+            "urls": [
+                "https://bor.golem.network"
+            ]
+          }
+        }
+      }
+    }
+  }

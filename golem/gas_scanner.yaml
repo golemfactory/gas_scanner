@@ -8,9 +8,9 @@ payloads:
     params:
       image_hash: "69dec7e8e106143d317516580d8e8f36ec014f484eb73b79a042a1f8"
   backend:
-    runtime: "vm"
+    runtime: "vm/manifest"
     params:
-      image_hash: "7e671bbcbf15686278cf72f76847acf4414980a993e48273860f206b"
+      manifest: ewogICAgInZlcnNpb24iOiAiMC4xLjAiLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTA5LTI5VDAwOjAwOjAwLjAwMDAwMFoiLAogICAgImV4cGlyZXNBdCI6ICIyMTAwLTAxLTAxVDAwOjAwOjAwLjAwMDAwMFoiLAogICAgInBheWxvYWQiOiBbCiAgICAgICAgewogICAgICAgICAgInBsYXRmb3JtIjogewogICAgICAgICAgICAiYXJjaCI6ICJ4ODZfNjQiLAogICAgICAgICAgICAib3MiOiAibGludXgiCiAgICAgICAgICB9LAogICAgICAgICAgInVybHMiOiBbCiAgICAgICAgICAgICJodHRwOi8veWFjbjIuZGV2LmdvbGVtLm5ldHdvcms6ODAwMC9kb2NrZXItZ2FzX3NjYW5uZXJfYmFja2VuZF9pbWFnZS1sYXRlc3QtM2Y2ZmY2Nzc3My5ndm1pIgogICAgICAgICAgXSwKICAgICAgICAgICJoYXNoIjogInNoYTM6N2U2NzFiYmNiZjE1Njg2Mjc4Y2Y3MmY3Njg0N2FjZjQ0MTQ5ODBhOTkzZTQ4MjczODYwZjIwNmIiCiAgICAgICAgfQogICAgICBdLAogICAgICAiY29tcE1hbmlmZXN0IjogewogICAgICAidmVyc2lvbiI6ICIwLjEuMCIsCiAgICAgICJzY3JpcHQiOiB7CiAgICAgICAgImNvbW1hbmRzIjogWwogICAgICAgICAgInJ1biAuKiIKICAgICAgICBdLAogICAgICAgICJtYXRjaCI6ICJyZWdleCIKICAgICAgfSwKICAgICAgIm5ldCI6IHsKICAgICAgICAiaW5ldCI6IHsKICAgICAgICAgICJvdXQiOiB7CiAgICAgICAgICAgICJwcm90b2NvbHMiOiBbCiAgICAgICAgICAgICAgImh0dHBzIgogICAgICAgICAgICBdLAogICAgICAgICAgICAidXJscyI6IFsKICAgICAgICAgICAgICAgICJodHRwczovL2Jvci5nb2xlbS5uZXR3b3JrIgogICAgICAgICAgICBdCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfQ==
 nodes:
   mongo:
     payload: "mongo"
@@ -25,24 +25,34 @@ nodes:
     init:
       - run:
           args: [
-            "/bin/sh", "-c",
-            "PROVIDER_ADDRESS='https://bor.golem.network';
-            MONGO_DB_CONNECTION_STRING='mongodb://192.168.0.2:27017';
-            MONGO_DB_NAME='GasUsage';
-            AGGREGATOR_DELAY_START='60';
-            AGGREGATOR_DELAY_SECONDS='60';
-            COLD_START_BLOCK='-1';
-            WATCHDOG_START_AGGREGATOR='node dist/gas_scanner_aggregator.js';
-            WATCHDOG_START_SERVER='node dist/gas_scanner_server.js';
-            WATCHDOG_START_COMMAND='node dist/gas_scanner_main.js --fillMissingBlocks --clearDatabase';
-            WATCHDOG_AFTER_KILL_DELAY_MS=5000;
-            WATCHDOG_AFTER_START_DELAY_MS=15000;
-            WATCHDOG_ALLOWED_SECONDS_BEHIND=30;
-            WATCHDOG_CHECK_EVERY_MS=250000;
-            SERVER_LISTEN_PORT=7888;
-            SERVER_CACHE_VALIDITY=3000;
-            node dist/gas_scanner_watchdog.js &"
-            ]
+            "/bin/bash",
+            "-c",
+            "echo -e \"PROVIDER_ADDRESS=https://bor.golem.network\n
+            MONGO_DB_CONNECTION_STRING=mongodb://192.168.0.2:27017\n
+            MONGO_DB_NAME=GasUsage\n
+            AGGREGATOR_DELAY_START=60\n
+            AGGREGATOR_DELAY_SECONDS='60'\n
+            COLD_START_BLOCK='-1'\n
+            WATCHDOG_START_AGGREGATOR='node dist/gas_scanner_aggregator.js'\n
+            WATCHDOG_START_SERVER='node dist/gas_scanner_server.js'\n
+            WATCHDOG_START_COMMAND='node dist/gas_scanner_main.js --fillMissingBlocks --clearDatabase'\n
+            WATCHDOG_AFTER_KILL_DELAY_MS=5000\n
+            WATCHDOG_AFTER_START_DELAY_MS=15000\n
+            WATCHDOG_ALLOWED_SECONDS_BEHIND=30\n
+            WATCHDOG_CHECK_EVERY_MS=250000\n
+            SERVER_LISTEN_PORT=7888\n
+            SERVER_CACHE_VALIDITY=3000\n\" > .env"
+          ]
+      - run:
+          args: ["/bin/bash", "-c", "cat .env"]
+      - run:
+          args: ["/bin/bash", "-c", "node dist/gas_scanner_watchdog.js > stdout 2> stderr &"]
+      - run:
+          args: ["/bin/bash", "-c", "sleep 30"]
+      - run:
+          args: ["/bin/bash", "-c", "cat stdout"]
+      - run:
+          args: ["/bin/bash", "-c", "cat stderr"]
     http_proxy:
       ports:
         - "7888"
