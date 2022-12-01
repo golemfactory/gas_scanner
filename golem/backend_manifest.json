@@ -26,10 +26,10 @@
         "inet": {
           "out": {
             "protocols": [
-              "https"
+              "http"
             ],
             "urls": [
-                "https://bor.golem.network"
+                "http://bor.golem.network"
             ]
           }
         }

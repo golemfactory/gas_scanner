@@ -10,7 +10,11 @@ payloads:
   backend:
     runtime: "vm/manifest"
     params:
-      manifest: ewogICAgInZlcnNpb24iOiAiMC4xLjAiLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTA5LTI5VDAwOjAwOjAwLjAwMDAwMFoiLAogICAgImV4cGlyZXNBdCI6ICIyMTAwLTAxLTAxVDAwOjAwOjAwLjAwMDAwMFoiLAogICAgInBheWxvYWQiOiBbCiAgICAgICAgewogICAgICAgICAgInBsYXRmb3JtIjogewogICAgICAgICAgICAiYXJjaCI6ICJ4ODZfNjQiLAogICAgICAgICAgICAib3MiOiAibGludXgiCiAgICAgICAgICB9LAogICAgICAgICAgInVybHMiOiBbCiAgICAgICAgICAgICJodHRwOi8veWFjbjIuZGV2LmdvbGVtLm5ldHdvcms6ODAwMC9kb2NrZXItZ2FzX3NjYW5uZXJfYmFja2VuZF9pbWFnZS1sYXRlc3QtM2Y2ZmY2Nzc3My5ndm1pIgogICAgICAgICAgXSwKICAgICAgICAgICJoYXNoIjogInNoYTM6N2U2NzFiYmNiZjE1Njg2Mjc4Y2Y3MmY3Njg0N2FjZjQ0MTQ5ODBhOTkzZTQ4MjczODYwZjIwNmIiCiAgICAgICAgfQogICAgICBdLAogICAgICAiY29tcE1hbmlmZXN0IjogewogICAgICAidmVyc2lvbiI6ICIwLjEuMCIsCiAgICAgICJzY3JpcHQiOiB7CiAgICAgICAgImNvbW1hbmRzIjogWwogICAgICAgICAgInJ1biAuKiIKICAgICAgICBdLAogICAgICAgICJtYXRjaCI6ICJyZWdleCIKICAgICAgfSwKICAgICAgIm5ldCI6IHsKICAgICAgICAiaW5ldCI6IHsKICAgICAgICAgICJvdXQiOiB7CiAgICAgICAgICAgICJwcm90b2NvbHMiOiBbCiAgICAgICAgICAgICAgImh0dHBzIgogICAgICAgICAgICBdLAogICAgICAgICAgICAidXJscyI6IFsKICAgICAgICAgICAgICAgICJodHRwczovL2Jvci5nb2xlbS5uZXR3b3JrIgogICAgICAgICAgICBdCiAgICAgICAgICB9CiAgICAgICAgfQogICAgICB9CiAgICB9CiAgfQ==
+      manifest: ewogICAgInZlcnNpb24iOiAiMC4xLjAiLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTA5LTI5VDAwOjAwOjAwLjAwMDAwMFoiLAogICAgImV4cGlyZXNBdCI6ICIyMTAwLTAxLTAxVDAwOjAwOjAwLjAwMDAwMFoiLAogICAgInBheWxvYWQiOiBbCiAgICAgICAgewogICAgICAgICAgInBsYXRmb3JtIjogewogICAgICAgICAgICAiYXJjaCI6ICJ4ODZfNjQiLAogICAgICAgICAgICAib3MiOiAibGludXgiCiAgICAgICAgICB9LAogICAgICAgICAgInVybHMiOiBbCiAgICAgICAgICAgICJodHRwOi8veWFjbjIuZGV2LmdvbGVtLm5ldHdvcms6ODAwMC9kb2NrZXItZ2FzX3NjYW5uZXJfYmFja2VuZF9pbWFnZS1sYXRlc3QtM2Y2ZmY2Nzc3My5ndm1pIgogICAgICAgICAgXSwKICAgICAgICAgICJoYXNoIjogInNoYTM6N2U2NzFiYmNiZjE1Njg2Mjc4Y2Y3MmY3Njg0N2FjZjQ0MTQ5ODBhOTkzZTQ4MjczODYwZjIwNmIiCiAgICAgICAgfQogICAgICBdLAogICAgICAiY29tcE1hbmlmZXN0IjogewogICAgICAidmVyc2lvbiI6ICIwLjEuMCIsCiAgICAgICJzY3JpcHQiOiB7CiAgICAgICAgImNvbW1hbmRzIjogWwogICAgICAgICAgInJ1biAuKiIKICAgICAgICBdLAogICAgICAgICJtYXRjaCI6ICJyZWdleCIKICAgICAgfSwKICAgICAgIm5ldCI6IHsKICAgICAgICAiaW5ldCI6IHsKICAgICAgICAgICJvdXQiOiB7CiAgICAgICAgICAgICJwcm90b2NvbHMiOiBbCiAgICAgICAgICAgICAgImh0dHAiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJ1cmxzIjogWwogICAgICAgICAgICAgICAgImh0dHA6Ly9ib3IuZ29sZW0ubmV0d29yayIKICAgICAgICAgICAgXQogICAgICAgICAgfQogICAgICAgIH0KICAgICAgfQogICAgfQogIH0=
+  frontend:
+    runtime: "vm"
+    params:
+      image_hash: "49dd38a6da1d6de32f6a7c51f909e104c717bbb27afc24f2beb9da81"
 nodes:
   mongo:
     payload: "mongo"
@@ -27,7 +31,7 @@ nodes:
           args: [
             "/bin/bash",
             "-c",
-            "echo -e \"PROVIDER_ADDRESS=https://bor.golem.network\n
+            "echo -e \"PROVIDER_ADDRESS=http://bor.golem.network/\n
             MONGO_DB_CONNECTION_STRING=mongodb://192.168.0.2:27017\n
             MONGO_DB_NAME=GasUsage\n
             AGGREGATOR_DELAY_START=60\n
@@ -44,11 +48,13 @@ nodes:
             SERVER_CACHE_VALIDITY=3000\n\" > .env"
           ]
       - run:
-          args: ["/bin/bash", "-c", "cat .env"]
+          args: ["/bin/bash", "-c", "cp .env dist/.env"]
       - run:
           args: ["/bin/bash", "-c", "node dist/gas_scanner_watchdog.js > stdout 2> stderr &"]
       - run:
-          args: ["/bin/bash", "-c", "sleep 30"]
+          args: ["/bin/bash", "-c", "curl -H \"Content-Type: application/json\" -d '{\"jsonrpc\": \"2.0\", \"method\": \"eth_blockNumber\", \"params\": [], \"id\": 0}' http://bor.golem.network/"]
+      - run:
+          args: ["/bin/bash", "-c", "sleep 60"]
       - run:
           args: ["/bin/bash", "-c", "cat stdout"]
       - run:
@@ -61,6 +67,21 @@ nodes:
       - "192.168.0.3"
     depends_on:
       - "mongo"
+  frontend:
+    payload: "frontend"
+    init:
+      - run:
+          args: ["/bin/bash", "-c", "chmod a+x /"]
+      - run:
+          args: ["/bin/bash", "-c", "/bin/run.sh 192.168.0.3 &"]
+    http_proxy:
+      ports:
+        - "80"
+    network: "default"
+    ip:
+      - "192.168.0.4"
+    depends_on:
+      - "backend"
 networks:
   default:
     ip: "192.168.0.0/24"
