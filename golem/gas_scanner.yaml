@@ -10,11 +10,11 @@ payloads:
   backend:
     runtime: "vm/manifest"
     params:
-      manifest: ewogICAgInZlcnNpb24iOiAiMC4xLjAiLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTA5LTI5VDAwOjAwOjAwLjAwMDAwMFoiLAogICAgImV4cGlyZXNBdCI6ICIyMTAwLTAxLTAxVDAwOjAwOjAwLjAwMDAwMFoiLAogICAgInBheWxvYWQiOiBbCiAgICAgICAgewogICAgICAgICAgInBsYXRmb3JtIjogewogICAgICAgICAgICAiYXJjaCI6ICJ4ODZfNjQiLAogICAgICAgICAgICAib3MiOiAibGludXgiCiAgICAgICAgICB9LAogICAgICAgICAgInVybHMiOiBbCiAgICAgICAgICAgICJodHRwOi8veWFjbjIuZGV2LmdvbGVtLm5ldHdvcms6ODAwMC9kb2NrZXItZ2FzX3NjYW5uZXJfYmFja2VuZF9pbWFnZS1sYXRlc3QtM2Y2ZmY2Nzc3My5ndm1pIgogICAgICAgICAgXSwKICAgICAgICAgICJoYXNoIjogInNoYTM6N2U2NzFiYmNiZjE1Njg2Mjc4Y2Y3MmY3Njg0N2FjZjQ0MTQ5ODBhOTkzZTQ4MjczODYwZjIwNmIiCiAgICAgICAgfQogICAgICBdLAogICAgICAiY29tcE1hbmlmZXN0IjogewogICAgICAidmVyc2lvbiI6ICIwLjEuMCIsCiAgICAgICJzY3JpcHQiOiB7CiAgICAgICAgImNvbW1hbmRzIjogWwogICAgICAgICAgInJ1biAuKiIKICAgICAgICBdLAogICAgICAgICJtYXRjaCI6ICJyZWdleCIKICAgICAgfSwKICAgICAgIm5ldCI6IHsKICAgICAgICAiaW5ldCI6IHsKICAgICAgICAgICJvdXQiOiB7CiAgICAgICAgICAgICJwcm90b2NvbHMiOiBbCiAgICAgICAgICAgICAgImh0dHAiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJ1cmxzIjogWwogICAgICAgICAgICAgICAgImh0dHA6Ly9ib3IuZ29sZW0ubmV0d29yayIKICAgICAgICAgICAgXQogICAgICAgICAgfQogICAgICAgIH0KICAgICAgfQogICAgfQogIH0=
+      manifest: ewogICAgInZlcnNpb24iOiAiMC4xLjAiLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTEyLTAxVDAwOjAwOjAwLjAwMDAwMFoiLAogICAgImV4cGlyZXNBdCI6ICIyMTAwLTAxLTAxVDAwOjAwOjAwLjAwMDAwMFoiLAogICAgInBheWxvYWQiOiBbCiAgICAgICAgewogICAgICAgICAgInBsYXRmb3JtIjogewogICAgICAgICAgICAiYXJjaCI6ICJ4ODZfNjQiLAogICAgICAgICAgICAib3MiOiAibGludXgiCiAgICAgICAgICB9LAogICAgICAgICAgInVybHMiOiBbCiAgICAgICAgICAgICJodHRwOi8vZ2lyZXBvLmRldi5nb2xlbS5uZXR3b3JrOjgwMDAvZG9ja2VyLWdhc19zY2FubmVyX2JhY2tlbmRfaW1hZ2UtbGF0ZXN0LTkxYzQ3MTUxN2EuZ3ZtaSIKICAgICAgICAgIF0sCiAgICAgICAgICAiaGFzaCI6ICJzaGEzOjA1MjcwYThhOTM4ZmY1ZjVlMzBiMGU2MWJjOTgzYThjM2UyODZjNWNkNDE0YTMyZTFhMDc3NjU3IgogICAgICAgIH0KICAgICAgXSwKICAgICAgImNvbXBNYW5pZmVzdCI6IHsKICAgICAgInZlcnNpb24iOiAiMC4xLjAiLAogICAgICAic2NyaXB0IjogewogICAgICAgICJjb21tYW5kcyI6IFsKICAgICAgICAgICJydW4gLioiCiAgICAgICAgXSwKICAgICAgICAibWF0Y2giOiAicmVnZXgiCiAgICAgIH0sCiAgICAgICJuZXQiOiB7CiAgICAgICAgImluZXQiOiB7CiAgICAgICAgICAib3V0IjogewogICAgICAgICAgICAicHJvdG9jb2xzIjogWwogICAgICAgICAgICAgICJodHRwIgogICAgICAgICAgICBdLAogICAgICAgICAgICAidXJscyI6IFsKICAgICAgICAgICAgICAgICJodHRwOi8vYm9yLmdvbGVtLm5ldHdvcmsiCiAgICAgICAgICAgIF0KICAgICAgICAgIH0KICAgICAgICB9CiAgICAgIH0KICAgIH0KICB9
   frontend:
     runtime: "vm"
     params:
-      image_hash: "49dd38a6da1d6de32f6a7c51f909e104c717bbb27afc24f2beb9da81"
+      image_hash: "246254e60209a9969634cfa9990a4d5f671e1bdce7c94fe9b76e76e0"
 nodes:
   mongo:
     payload: "mongo"
@@ -24,6 +24,9 @@ nodes:
     network: "default"
     ip:
       - "192.168.0.2"
+    tcp_proxy:
+      ports:
+        - "27017"
   backend:
     payload: "backend"
     init:
@@ -39,7 +42,7 @@ nodes:
             COLD_START_BLOCK='-1'\n
             WATCHDOG_START_AGGREGATOR='node dist/gas_scanner_aggregator.js'\n
             WATCHDOG_START_SERVER='node dist/gas_scanner_server.js'\n
-            WATCHDOG_START_COMMAND='node dist/gas_scanner_main.js --fillMissingBlocks --clearDatabase'\n
+            WATCHDOG_START_COMMAND='node dist/gas_scanner_main.js --fillMissingBlocks'\n
             WATCHDOG_AFTER_KILL_DELAY_MS=5000\n
             WATCHDOG_AFTER_START_DELAY_MS=15000\n
             WATCHDOG_ALLOWED_SECONDS_BEHIND=30\n
@@ -48,17 +51,7 @@ nodes:
             SERVER_CACHE_VALIDITY=3000\n\" > .env"
           ]
       - run:
-          args: ["/bin/bash", "-c", "cp .env dist/.env"]
-      - run:
           args: ["/bin/bash", "-c", "node dist/gas_scanner_watchdog.js > stdout 2> stderr &"]
-      - run:
-          args: ["/bin/bash", "-c", "curl -H \"Content-Type: application/json\" -d '{\"jsonrpc\": \"2.0\", \"method\": \"eth_blockNumber\", \"params\": [], \"id\": 0}' http://bor.golem.network/"]
-      - run:
-          args: ["/bin/bash", "-c", "sleep 60"]
-      - run:
-          args: ["/bin/bash", "-c", "cat stdout"]
-      - run:
-          args: ["/bin/bash", "-c", "cat stderr"]
     http_proxy:
       ports:
         - "7888"

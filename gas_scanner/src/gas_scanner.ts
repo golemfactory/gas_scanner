@@ -42,6 +42,7 @@ export class ChainGasScanner {
     monitoredAddresses = new Map<string, MonitoredAddress>();
 
     constructor(providerRpcAddress: string, startingBlock: number) {
+        console.log("ChainGasScanner " + providerRpcAddress + " " + startingBlock);
         this.blockProvider = new ethers.providers.JsonRpcBatchProvider(providerRpcAddress);
         this.transactionsProvider = new ethers.providers.JsonRpcBatchProvider(providerRpcAddress);
         this.startingBlockNumber = startingBlock;
@@ -134,7 +135,7 @@ export class ChainGasScanner {
                 }
                 this.chainScannerStatus.lastUpdate = new Date().toISOString();
                 if (block == null) {
-                    //console.log("Too fast, no block info yet");
+                    console.log("Too fast, no block info yet");
                     await delay(300);
                     continue;
                 }
@@ -156,9 +157,14 @@ export class ChainGasScanner {
                 }
 
                 let nextBatch = new Array<Promise<TransactionReceipt>>();
+
+
+                console.log("num transactions: " + block.transactions.length);
                 for (let transaction of block.transactions) {
-                    //this.transactionsToProcess.push(transaction);
-                    nextBatch.push(this.transactionsProvider.getTransactionReceipt(transaction));
+                    if (nextBatch.length <= 3) {
+                        //this.transactionsToProcess.push(transaction);
+                        nextBatch.push(this.transactionsProvider.getTransactionReceipt(transaction));
+                    }
                 }
                 //good moment to store data in db;
 
@@ -220,7 +226,7 @@ export class ChainGasScanner {
     async processTransactionReceipt(transactionReceipt: TransactionReceipt) {
         let transferCount = 0;
         let addresses: { [address: string]: number } = {};
-        //console.log("Gas price: " + transactionReceipt.effectiveGasPrice);
+        console.log("Gas price: " + transactionReceipt.effectiveGasPrice);
 
 
         let blockNumber = transactionReceipt.blockNumber;
@@ -356,7 +362,7 @@ export class ChainGasScanner {
 
                         let transactionReceipt = await promise;
                         if (transactionReceipt == null) {
-                            //console.error("Cannot get transaction receipt + " + transaction);
+                            console.error("Cannot get transaction receipt + ");
                             continue;
                         }
                         await this.processTransactionReceipt(transactionReceipt);

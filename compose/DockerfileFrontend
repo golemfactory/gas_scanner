@@ -19,7 +19,6 @@ COPY run.sh /bin/run.sh
 RUN chmod a+x /bin/run.sh
 RUN chmod a+x /
 RUN chmod -R a+x /usr/
-RUN whoami
 
 EXPOSE 80
 

@@ -1,6 +1,6 @@
 {
     "version": "0.1.0",
-    "createdAt": "2022-09-29T00:00:00.000000Z",
+    "createdAt": "2022-12-01T00:00:00.000000Z",
     "expiresAt": "2100-01-01T00:00:00.000000Z",
     "payload": [
         {
@@ -9,9 +9,9 @@
             "os": "linux"
           },
           "urls": [
-            "http://yacn2.dev.golem.network:8000/docker-gas_scanner_backend_image-latest-3f6ff67773.gvmi"
+            "http://girepo.dev.golem.network:8000/docker-gas_scanner_backend_image-latest-91c471517a.gvmi"
           ],
-          "hash": "sha3:7e671bbcbf15686278cf72f76847acf4414980a993e48273860f206b"
+          "hash": "sha3:05270a8a938ff5f5e30b0e61bc983a8c3e286c5cd414a32e1a077657"
         }
       ],
       "compManifest": {
