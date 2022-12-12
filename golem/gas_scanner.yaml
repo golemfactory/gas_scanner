@@ -51,7 +51,11 @@ nodes:
             SERVER_CACHE_VALIDITY=3000\n\" > .env"
           ]
       - run:
-          args: ["/bin/bash", "-c", "node dist/gas_scanner_watchdog.js > stdout 2> stderr &"]
+          args: ["/bin/bash", "-c", "node dist/gas_scanner_aggregator.js > agg_stdout 2> agg_stderr &"]
+      - run:
+          args: ["/bin/bash", "-c", "node dist/gas_scanner_server.js > srv_stdout 2> srv_stderr &"]
+      - run:
+          args: ["/bin/bash", "-c", "node dist/gas_scanner_main.js --fillMissingBlocks > main_stdout 2> main_stderr &"]
     http_proxy:
       ports:
         - "7888"
